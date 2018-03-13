@@ -8,7 +8,7 @@
     </li>
 </template>
 <script>
-    const prefixCls = 'ivu-timeline';
+    const prefixCls = 'sw-timeline';
 
     export default {
         name: 'TimelineItem',

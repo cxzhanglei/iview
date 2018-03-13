@@ -25,7 +25,7 @@
 <script>
     import Icon from '../icon/icon.vue';
     import iProgress from '../progress/progress.vue';
-    const prefixCls = 'ivu-upload';
+    const prefixCls = 'sw-upload';
 
     export default {
         name: 'UploadList',

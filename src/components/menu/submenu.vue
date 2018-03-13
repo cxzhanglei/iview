@@ -25,7 +25,7 @@
     import Emitter from '../../mixins/emitter';
     import mixin from './mixin';
 
-    const prefixCls = 'ivu-menu';
+    const prefixCls = 'sw-menu';
 
     export default {
         name: 'Submenu',

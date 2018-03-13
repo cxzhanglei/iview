@@ -1,14 +1,14 @@
 <template>
-    <div class="ivu-color-picker-saturation-wrapper">
+    <div class="sw-color-picker-saturation-wrapper">
         <div
-            class="ivu-color-picker-saturation"
+            class="sw-color-picker-saturation"
             :style="{background: bgColor}"
             ref="container"
             @mousedown="handleMouseDown">
-            <div class="ivu-color-picker-saturation--white"></div>
-            <div class="ivu-color-picker-saturation--black"></div>
-            <div class="ivu-color-picker-saturation-pointer" :style="{top: pointerTop, left: pointerLeft}">
-                <div class="ivu-color-picker-saturation-circle"></div>
+            <div class="sw-color-picker-saturation--white"></div>
+            <div class="sw-color-picker-saturation--black"></div>
+            <div class="sw-color-picker-saturation-pointer" :style="{top: pointerTop, left: pointerLeft}">
+                <div class="sw-color-picker-saturation-circle"></div>
             </div>
         </div>
     </div>

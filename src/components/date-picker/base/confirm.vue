@@ -12,7 +12,7 @@
     import iButton from '../../button/button.vue';
     import Locale from '../../../mixins/locale';
 
-    const prefixCls = 'ivu-picker';
+    const prefixCls = 'sw-picker';
 
     export default {
         mixins: [ Locale ],

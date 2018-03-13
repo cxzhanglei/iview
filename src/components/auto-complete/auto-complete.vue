@@ -1,7 +1,7 @@
 <template>
     <i-select
         ref="select"
-        class="ivu-auto-complete"
+        class="sw-auto-complete"
         :label="label"
         :disabled="disabled"
         :clearable="clearable"

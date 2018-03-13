@@ -2,7 +2,7 @@
     <li :class="classes" @click="handleClick"><slot></slot></li>
 </template>
 <script>
-    const prefixCls = 'ivu-dropdown-item';
+    const prefixCls = 'sw-dropdown-item';
 
     export default {
         name: 'DropdownItem',

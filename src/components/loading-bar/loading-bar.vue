@@ -8,7 +8,7 @@
 <script>
 //    import { oneOf } from '../../utils/assist';
 
-    const prefixCls = 'ivu-loading-bar';
+    const prefixCls = 'sw-loading-bar';
 
     export default {
         props: {

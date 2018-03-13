@@ -6,7 +6,7 @@
 <script>
     import { oneOf } from '../../utils/assist';
 
-    const prefixCls = 'ivu-btn-group';
+    const prefixCls = 'sw-btn-group';
 
     export default {
         name: 'ButtonGroup',

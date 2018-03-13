@@ -21,12 +21,12 @@
 <script>
     import Notice from './notice.vue';
 
-    const prefixCls = 'ivu-notification';
+    const prefixCls = 'sw-notification';
     let seed = 0;
     const now = Date.now();
 
     function getUuid () {
-        return 'ivuNotification_' + now + '_' + (seed++);
+        return 'swNotification_' + now + '_' + (seed++);
     }
 
     export default {

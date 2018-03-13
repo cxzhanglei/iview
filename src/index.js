@@ -50,6 +50,8 @@ import Tree from './components/tree';
 import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
+import ScrollBar from './components/scrollbar';
+
 import locale from './locale/index';
 
 const components = {
@@ -85,6 +87,7 @@ const components = {
     Input,
     InputNumber,
     Scroll,
+    ScrollBar,
     Sider: Sider,
     Submenu: Menu.Sub,
     Layout: Layout,
@@ -164,18 +167,18 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 const API = {
     version: process.env.VERSION, // eslint-disable-line no-undef
-    locale: locale.use,
-    i18n: locale.i18n,
+    // locale: locale.use,
+    // i18n: locale.i18n,
     install,
     Circle,
     Switch,
     ...components
 };
 
-API.lang = (code) => {
-    const langObject = window['iview/locale'].default;
-    if (code === langObject.i.locale) locale.use(langObject);
-    else console.log(`The ${code} language pack is not loaded.`); // eslint-disable-line no-console
-};
+// API.lang = (code) => {
+//     const langObject = window['iview/locale'].default;
+//     if (code === langObject.i.locale) locale.use(langObject);
+//     else console.log(`The ${code} language pack is not loaded.`); // eslint-disable-line no-console
+// };
 
 module.exports.default = module.exports = API;   // eslint-disable-line no-undef

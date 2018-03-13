@@ -1,4 +1,4 @@
-import setLang from '../lang';
+import setLang from './lang';
 
 const lang = {
     i: {

@@ -12,7 +12,7 @@
     import { oneOf } from '../../utils/assist';
     import ScrollbarMixins from '../modal/mixins-scrollbar';
 
-    const prefixCls = 'ivu-spin';
+    const prefixCls = 'sw-spin';
 
     export default {
         name: 'Spin',

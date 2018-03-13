@@ -1,11 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
-const entry = require('./locale');
 process.env.NODE_ENV = 'production';
 
 module.exports = {
     devtool: 'source-map',
-    entry,
+    entry: {
+        'zh-CN': './src/locale/zh-CN.js'
+    },
     module: {
         rules: [
             {

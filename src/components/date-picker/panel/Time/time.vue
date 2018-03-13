@@ -35,8 +35,8 @@
 
     import { initTimeDate } from '../../util';
 
-    const prefixCls = 'ivu-picker-panel';
-    const timePrefixCls = 'ivu-time-picker';
+    const prefixCls = 'sw-picker-panel';
+    const timePrefixCls = 'sw-time-picker';
 
     const capitalize = (str) => str[0].toUpperCase() + str.slice(1);
 

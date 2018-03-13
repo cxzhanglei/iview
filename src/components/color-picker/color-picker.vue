@@ -2,11 +2,11 @@
     <div :class="classes" v-clickoutside="handleClose">
         <div ref="reference" @click="toggleVisible" :class="wrapClasses">
             <input type="hidden" :name="name" :value="currentValue">
-            <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
+            <i class="sw-icon sw-icon-arrow-down-b sw-input-icon sw-input-icon-normal"></i>
             <div :class="inputClasses">
                 <div :class="[prefixCls + '-color']">
                     <div :class="[prefixCls + '-color-empty']" v-show="value === '' && !visible">
-                        <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+                        <i class="sw-icon sw-icon-ios-close-empty"></i>
                     </div>
                     <div v-show="value || visible" :style="{backgroundColor: displayedColor}"></div>
                 </div>
@@ -17,7 +17,7 @@
                 v-show="visible"
                 @click.native="handleTransferClick"
                 :class="{ [prefixCls + '-transfer']: transfer }"
-                class-name="ivu-transfer-no-max-height"
+                class-name="sw-transfer-no-max-height"
                 :placement="placement"
                 ref="drop"
                 :data-transfer="transfer"
@@ -69,8 +69,8 @@
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
-    const prefixCls = 'ivu-color-picker';
-    const inputPrefixCls = 'ivu-input';
+    const prefixCls = 'sw-color-picker';
+    const inputPrefixCls = 'sw-input';
 
     function _colorChange (data, oldHue) {
         data = data === '' ? '#2d8cf0' : data;

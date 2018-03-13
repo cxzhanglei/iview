@@ -6,7 +6,7 @@
     </div>
 </template>
 <script>
-    const prefixCls = 'ivu-card';
+    const prefixCls = 'sw-card';
     const defaultPadding = 16;
 
     export default {

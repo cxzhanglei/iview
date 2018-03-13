@@ -14,7 +14,7 @@
 <script>
     import Icon from '../icon/icon.vue';
     import CollapseTransition from '../base/collapse-transition';
-    const prefixCls = 'ivu-collapse';
+    const prefixCls = 'sw-collapse';
 
     export default {
         name: 'Panel',

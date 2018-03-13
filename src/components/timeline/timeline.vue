@@ -4,7 +4,7 @@
     </ul>
 </template>
 <script>
-    const prefixCls = 'ivu-timeline';
+    const prefixCls = 'sw-timeline';
 
     export default {
         name: 'Timeline',
