@@ -23,7 +23,7 @@
                 ></i-input>
             </slot>
         </div>
-        <transition :name="transition">
+        <transition name="transition-drop">
             <Drop
                 @click.native="handleTransferClick"
                 v-show="opened"
@@ -72,7 +72,7 @@
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP } from './util';
+    import { DEFAULT_FORMATS, RANGE_SEPARATOR, TYPE_VALUE_RESOLVER_MAP } from './util';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'sw-date-picker';
@@ -272,7 +272,7 @@
                 const isValidDate = newDate.reduce((valid, date) => valid && date instanceof Date, true);
 
                 if (newValue !== oldValue && !isDisabled && isValidDate) {
-                    this.emitChange();
+                    this.emitChange(this.type);
                     this.internalValue = newDate;
                 } else {
                     this.forceInputRerender++;
@@ -299,7 +299,7 @@
                 this.internalValue = this.internalValue.map(() => null);
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
-                this.emitChange();
+                this.emitChange(this.type);
                 this.reset();
 
                 setTimeout(
@@ -307,9 +307,9 @@
                     500 // delay to improve dropdown close visual effect
                 );
             },
-            emitChange () {
+            emitChange (type) {
                 this.$nextTick(() => {
-                    this.$emit('on-change', this.publicStringValue);
+                    this.$emit('on-change', this.publicStringValue, type);
                     this.dispatch('FormItem', 'on-form-change', this.publicStringValue);
                 });
             },
@@ -334,10 +334,16 @@
                         if (typeof val === 'string') {
                             val = parser(val, format);
                         } else if (type === 'timerange') {
-                            val = parser(val, format);
+                            val = parser(val, format).map(v => v || '');
                         } else {
-                            val = val.map(date => new Date(date)); // try to parse
-                            val = val.map(date => isNaN(date.getTime()) ? null : date); // check if parse passed
+                            const [start, end] = val;
+                            if (start instanceof Date && end instanceof Date){
+                                val = val.map(date => new Date(date));
+                            } else if (typeof start === 'string' && typeof end === 'string'){
+                                val = parser(val.join(RANGE_SEPARATOR), format);
+                            } else if (!start || !end){
+                                val = [null, null];
+                            }
                         }
                     }
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0){
@@ -360,7 +366,7 @@
                     return formatter(value, this.format || format);
                 }
             },
-            onPick(dates, visible = false) {
+            onPick(dates, visible = false, type) {
                 if (this.multiple){
                     const pickedTimeStamp = dates.getTime();
                     const indexOfPickedDate = this.internalValue.findIndex(date => date && date.getTime() === pickedTimeStamp);
@@ -373,7 +379,7 @@
 
                 if (!this.isConfirm) this.onSelectionModeChange(this.type); // reset the selectionMode
                 if (!this.isConfirm) this.visible = visible;
-                this.emitChange();
+                this.emitChange(type);
             },
             onPickSuccess(){
                 this.visible = false;

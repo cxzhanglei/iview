@@ -26,10 +26,12 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @input="change"
+                @mouseup="preventDefault"
                 @change="change"
                 :readonly="readonly || !editable"
                 :name="name"
-                :value="precisionValue">
+                :value="formatterValue"
+                :placeholder="placeholder">
         </div>
     </div>
 </template>
@@ -113,7 +115,17 @@
             },
             elementId: {
                 type: String
-            }
+            },
+            formatter: {
+                type: Function
+            },
+            parser: {
+                type: Function
+            },
+            placeholder: {
+                type: String,
+                default: ''
+            },
         },
         data () {
             return {
@@ -170,6 +182,13 @@
             precisionValue () {
                 // can not display 1.0
                 return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+            },
+            formatterValue () {
+                if (this.formatter && this.precisionValue !== null) {
+                    return this.formatter(this.precisionValue);
+                } else {
+                    return this.precisionValue;
+                }
             }
         },
         methods: {
@@ -237,9 +256,9 @@
                     this.dispatch('FormItem', 'on-form-change', val);
                 });
             },
-            focus () {
+            focus (event) {
                 this.focused = true;
-                this.$emit('on-focus');
+                this.$emit('on-focus', event);
             },
             blur () {
                 this.focused = false;
@@ -256,6 +275,9 @@
             },
             change (event) {
                 let val = event.target.value.trim();
+                if (this.parser) {
+                    val = this.parser(val);
+                }
 
                 if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
@@ -263,6 +285,10 @@
                 const isEmptyString = val.length === 0;
                 val = Number(val);
 
+                if(isEmptyString){
+                    this.setValue(null);
+                    return;
+                }
                 if (event.type == 'change'){
                     if (val === this.currentValue && val > min && val < max) return; // already fired change for input event
                 }
