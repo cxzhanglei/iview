@@ -14,7 +14,7 @@
                         @click.native.prevent="handleCheck"></Checkbox>
                 <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
                 <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
-                <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
+                <span v-else :class="titleClasses" @click="handleSelect" :title="data.title">{{ data.title }}</span>
                 <Tree-node
                         v-if="data.expand"
                         v-for="(item, i) in children"
@@ -160,6 +160,8 @@
             },
             handleSelect () {
                 if (this.data.disabled) return;
+                // 已经选择后不能取消 2018/4/24 by ZL改
+                if (this.data.selected) return;
                 this.dispatch('Tree', 'on-selected', this.data.nodeKey);
             },
             handleCheck () {
