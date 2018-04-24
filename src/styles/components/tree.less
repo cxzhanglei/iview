@@ -35,6 +35,11 @@
         &-selected, &-selected:hover{
             background-color: tint(@primary-color, 80%);
         }
+        // 禁用节点后可以展开 2018/4/24 by ZL改
+        &-disabled {
+            cursor: @cursor-disabled;
+            color: #a6a7a8;
+        }
     }
     &-arrow{
         cursor: pointer;
@@ -55,8 +60,9 @@
         //        display: none;
         //    }
         //}
-        &-disabled{
-            cursor: @cursor-disabled;
-        }
+        // 禁用节点后可以展开 2018/4/24 by ZL改
+        // &-disabled{
+        //     cursor: @cursor-disabled;
+        // }
     }
 }
