@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 process.env.NODE_ENV = 'production';
 
 module.exports = {
@@ -41,7 +43,7 @@ module.exports = {
                 NODE_ENV: '"production"'
             }
         }),
-        new webpack.optimize.UglifyJsPlugin({
+        new UglifyJsPlugin({
             parallel: true,
             sourceMap: true,
         })

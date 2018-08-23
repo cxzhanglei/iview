@@ -2,7 +2,7 @@
     <div :class="classes" :style="styles" @click="back">
         <slot>
             <div :class="innerClasses">
-                <i class="sw-icon sw-icon-chevron-up"></i>
+                <i class="sw-icon sw-icon-ios-arrow-up"></i>
             </div>
         </slot>
     </div>

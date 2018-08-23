@@ -9,7 +9,7 @@
                     ></render-cell>
                 </div>
                 <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                    <i class="sw-icon sw-icon-ios-close-empty"></i>
+                    <i class="sw-icon sw-icon-ios-close"></i>
                 </a>
             </template>
             <template v-if="type === 'message'">
@@ -21,7 +21,7 @@
                         ></render-cell>
                     </div>
                     <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                        <i class="sw-icon sw-icon-ios-close-empty"></i>
+                        <i class="sw-icon sw-icon-ios-close"></i>
                     </a>
                 </div>
             </template>

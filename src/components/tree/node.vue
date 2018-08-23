@@ -3,8 +3,8 @@
         <ul :class="classes">
             <li>
                 <span :class="arrowClasses" @click="handleExpand">
-                    <Icon v-if="showArrow" type="arrow-right-b"></Icon>
-                    <Icon v-if="showLoading" type="load-c" class="sw-load-loop"></Icon>
+                    <Icon v-if="showArrow" type="ios-arrow-forward"></Icon>
+                    <Icon v-if="showLoading" type="ios-loading" class="sw-load-loop"></Icon>
                 </span>
                 <Checkbox
                         v-if="showCheckbox"

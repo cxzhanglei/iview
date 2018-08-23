@@ -48,6 +48,8 @@
         display: inline-block;
         i {
             transition: all @transition-time @ease-in-out;
+            font-size: @font-size-base;
+            vertical-align: middle;
         }
         &-open{
             i {
@@ -64,5 +66,10 @@
         // &-disabled{
         //     cursor: @cursor-disabled;
         // }
+    }
+
+    .@{checkbox-prefix-cls}-wrapper{
+        margin-right: 4px;
+        margin-left: 4px;
     }
 }
