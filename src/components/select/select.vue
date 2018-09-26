@@ -54,6 +54,7 @@
                 :placement="placement"
                 ref="dropdown"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom
             >
                 <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
@@ -355,6 +356,9 @@
                         });
                     });
                 }
+                /**
+                 * Not sure why use hasDefaultSelected #4273
+                 * */
                 let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
                 for (let option of slotOptions) {
 
