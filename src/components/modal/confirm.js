@@ -23,7 +23,8 @@ Modal.newInstance = properties => {
             loading: false,
             buttonLoading: false,
             scrollable: false,
-            closable: false
+            closable: false,
+            closing: false // 关闭有动画，期间使用此属性避免重复点击
         }),
         render (h) {
             let footerVNodes = [];
@@ -109,7 +110,8 @@ Modal.newInstance = properties => {
                 on: {
                     input: (status) => {
                         this.visible = status;
-                    }
+                    },
+                    'on-cancel': this.cancel
                 }
             }, [
                 h('div', {
@@ -157,12 +159,14 @@ Modal.newInstance = properties => {
         },
         methods: {
             cancel () {
+                if (this.closing) return;
                 this.$children[0].visible = false;
                 this.buttonLoading = false;
                 this.onCancel();
                 this.remove();
             },
             ok () {
+                if (this.closing) return;
                 if (this.loading) {
                     this.buttonLoading = true;
                 } else {
@@ -172,7 +176,9 @@ Modal.newInstance = properties => {
                 this.onOk();
             },
             remove () {
+                this.closing = true;
                 setTimeout(() => {
+                    this.closing = false;
                     this.destroy();
                 }, 300);
             },

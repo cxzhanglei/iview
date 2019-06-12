@@ -2,7 +2,7 @@
     <div :class="wrapClasses">
         <template v-if="type !== 'textarea'">
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
-            <i class="sw-icon" :class="['sw-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue" @click="handleClear"></i>
+            <i class="sw-icon" :class="['sw-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue && !disabled" @click="handleClear"></i>
             <i class="sw-icon" :class="['sw-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
             <i class="sw-icon sw-icon-ios-search" :class="[prefixCls + '-icon', prefixCls + '-icon-normal', prefixCls + '-search-icon']" v-else-if="search && enterButton === false" @click="handleSearch"></i>
             <span class="sw-input-suffix" v-else-if="showSuffix"><slot name="suffix"><i class="sw-icon" :class="['sw-icon-' + suffix]" v-if="suffix"></i></slot></span>
@@ -30,6 +30,9 @@
                 @keydown="handleKeydown"
                 @focus="handleFocus"
                 @blur="handleBlur"
+                @compositionstart="handleComposition"
+                @compositionupdate="handleComposition"
+                @compositionend="handleComposition"
                 @input="handleInput"
                 @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
@@ -62,6 +65,9 @@
             @keydown="handleKeydown"
             @focus="handleFocus"
             @blur="handleBlur"
+            @compositionstart="handleComposition"
+            @compositionupdate="handleComposition"
+            @compositionend="handleComposition"
             @input="handleInput">
         </textarea>
     </div>
@@ -79,7 +85,7 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date']);
+                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date', 'number', 'tel']);
                 },
                 default: 'text'
             },
@@ -135,9 +141,7 @@
                 default: false
             },
             autocomplete: {
-                validator (value) {
-                    return oneOf(value, ['on', 'off']);
-                },
+                type: String,
                 default: 'off'
             },
             clearable: {
@@ -179,7 +183,8 @@
                 slotReady: false,
                 textareaStyles: {},
                 showPrefix: false,
-                showSuffix: false
+                showSuffix: false,
+                isOnComposition: false
             };
         },
         computed: {
@@ -244,7 +249,18 @@
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
                 }
             },
+            handleComposition(event) {
+                if (event.type === 'compositionstart') {
+                    this.isOnComposition = true;
+                }
+                if (event.type === 'compositionend') {
+                    this.isOnComposition = false;
+                    this.handleInput(event);
+                }
+            },
             handleInput (event) {
+                if (this.isOnComposition) return;
+
                 let value = event.target.value;
                 if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
                 this.$emit('input', value);
@@ -294,6 +310,7 @@
                 this.$emit('input', '');
                 this.setCurrentValue('');
                 this.$emit('on-change', e);
+                this.$emit('on-clear');
             },
             handleSearch () {
                 if (this.disabled) return false;

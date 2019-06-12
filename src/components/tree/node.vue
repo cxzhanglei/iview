@@ -1,10 +1,10 @@
 <template>
-    <collapse-transition>
+    <collapse-transition :appear="appear">
         <ul :class="classes">
             <li>
                 <span :class="arrowClasses" @click="handleExpand">
-                    <Icon v-if="showArrow" type="ios-arrow-forward"></Icon>
-                    <Icon v-if="showLoading" type="ios-loading" class="sw-load-loop"></Icon>
+                    <Icon v-if="showArrow" :type="arrowType" :custom="customArrowType" :size="arrowSize" />
+                    <Icon v-if="showLoading" type="ios-loading" class="sw-load-loop" />
                 </span>
                 <Checkbox
                         v-if="showCheckbox"
@@ -14,9 +14,10 @@
                         @click.native.prevent="handleCheck"></Checkbox>
                 <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
                 <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
-                <span v-else :class="titleClasses" @click="handleSelect" :title="data.title">{{ data.title }}</span>
+                <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
                 <Tree-node
                         v-if="data.expand"
+                        :appear="appearByClickArrow"
                         v-for="(item, i) in children"
                         :key="i"
                         :data="item"
@@ -41,6 +42,7 @@
     export default {
         name: 'TreeNode',
         mixins: [ Emitter ],
+        inject: ['TreeInstance'],
         components: { Checkbox, Icon, CollapseTransition, Render },
         props: {
             data: {
@@ -60,11 +62,16 @@
             showCheckbox: {
                 type: Boolean,
                 default: false
+            },
+            appear: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
             return {
-                prefixCls: prefixCls
+                prefixCls: prefixCls,
+                appearByClickArrow: false
             };
         },
         computed: {
@@ -129,6 +136,41 @@
             },
             children () {
                 return this.data[this.childrenKey];
+            },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = 'ios-arrow-forward';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.tree.customArrow) {
+                        type = '';
+                    } else if (this.$IVIEW.tree.arrow) {
+                        type = this.$IVIEW.tree.arrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.tree.customArrow) {
+                        type = this.$IVIEW.tree.customArrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.tree.arrowSize) {
+                        size = this.$IVIEW.tree.arrowSize;
+                    }
+                }
+                return size;
             }
         },
         methods: {
@@ -136,6 +178,9 @@
                 const item = this.data;
                 // 禁用节点后可以展开 2018/4/24 by ZL改
                 // if (item.disabled) return;
+
+                // Vue.js 2.6.9 对 transition 的 appear 进行了调整，导致 iView 初始化时无动画，加此方法来判断通过点击箭头展开时，加 appear，否则初始渲染时 appear 为 false
+                this.appearByClickArrow = true;
 
                 // async loading
                 if (item[this.childrenKey].length === 0) {
@@ -160,9 +205,11 @@
             },
             handleSelect () {
                 if (this.data.disabled) return;
-                // 已经选择后不能取消 2018/4/24 by ZL改
-                if (this.data.selected) return;
-                this.dispatch('Tree', 'on-selected', this.data.nodeKey);
+                if (this.TreeInstance.showCheckbox && this.TreeInstance.checkDirectly) {
+                    this.handleCheck();
+                } else {
+                    this.dispatch('Tree', 'on-selected', this.data.nodeKey);
+                }
             },
             handleCheck () {
                 if (this.data.disabled) return;
