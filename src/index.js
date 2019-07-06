@@ -58,6 +58,8 @@ import Tree from './components/tree';
 import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
+import ScrollBar from './components/scrollbar';
+
 import locale from './locale/index';
 
 const components = {
@@ -99,6 +101,7 @@ const components = {
     Input,
     InputNumber,
     Scroll,
+    ScrollBar,
     Sider: Sider,
     Split,
     Submenu: Menu.Sub,

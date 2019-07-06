@@ -34,6 +34,7 @@ export { Icon } from './icon';
 export { Input } from './input';
 export { InputNumber } from './input-number';
 export { Scroll } from './scroll';
+export { ScrollBar } from './scrollbar';
 export { Split } from './split';
 export { Layout } from './layout';
 export { LoadingBar, LoadingBarConfig } from './loading-bar';
