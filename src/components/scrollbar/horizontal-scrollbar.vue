@@ -56,7 +56,7 @@
         },
         methods: {
             startDrag (e) {
-                e.preventDefault();
+                // e.preventDefault();
                 e.stopPropagation();
                 e = e.changedTouches ? e.changedTouches[0] : e;
 
@@ -64,7 +64,7 @@
                 this.start = e.pageX;
             },
             onDrag (e) {
-                e.preventDefault();
+                // e.preventDefault();
                 e.stopPropagation();
                 e = e.changedTouches ? e.changedTouches[0] : e;
                 if(this.dragging) {
